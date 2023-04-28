@@ -3,8 +3,9 @@
 </script>
 
 <template>
-    <router-view/>
-<h1>这里是登录</h1>
+    <h2>
+        你好我是用户1
+    </h2>
 </template>
 
 <style scoped lang="scss">

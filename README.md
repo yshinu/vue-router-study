@@ -111,3 +111,26 @@ const toPage2 = () => {
 * query 传递的参数会显示在地址栏中
 * params 传参刷新会无效，但是 query 会保存传递过来的值，刷新不变 ;
 * 路由配置
+
+## 嵌套路由
+在路由中增加一个子路由,子路由的path前面不要加/
+```vue
+{
+    path: "/",
+    name: "登录",
+    component: () => (import('../components/Login.vue')),
+    children:[
+        {
+            path : 'user1',
+            name:"user1",
+            component:()=>(import('../components/User1.vue'))
+        },
+        {
+            path : 'user2',
+            name:"user2",
+            component:()=>(import('../components/User2.vue'))
+        },
+    ]
+}
+```
+在`'../components/Login.vue'`里面不要忘记加` <router-view/>`了，这样访问/login/user1就可以显示user1的内容了
