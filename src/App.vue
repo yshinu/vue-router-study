@@ -39,8 +39,13 @@ const toPage2 = () => {
             <button @click="toPage2">动态传参</button>
         </div>
         <hr />
-
-        <router-view></router-view>
+        <router-view v-slot="{route,Component}">
+            <transition  :enter-active-class="`animate__animated ${route.meta.transition}`">
+                <div :key="route.meta.title">
+                    <component :is="Component"></component>
+                </div>
+            </transition>
+        </router-view>
 
         <router-view name="header"></router-view>
         <router-view name="content"></router-view>

@@ -9,7 +9,8 @@ const routes: Array<RouteRecordRaw> = [{
     name: "登录",
     component: () => (import('../components/Login.vue')),
     meta:{
-        title:"首页"
+        title:"首页",
+        transition:"animate__fadeIn"
     },
     children:[
         {
@@ -27,6 +28,10 @@ const routes: Array<RouteRecordRaw> = [{
     {
         path:"/reg",
         name: "注册",
+        meta:{
+            title:"个人信息",
+            transition:"animate__fadeIn"
+        },
         component: () => (import('../components/Reg.vue'))
     },
     {
@@ -45,6 +50,7 @@ export const router = createRouter({
 })
 const whileList = ['/']
 
+// @ts-ignore
 router.beforeEach((to, from, next) => {
     document.title = <string>to.meta.title
     let token = localStorage.getItem('token')

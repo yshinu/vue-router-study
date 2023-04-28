@@ -318,3 +318,51 @@ ElMessage.error('请输入完整')
       }
     },
 ```
+
+## 过度动效
+```vue
+        <router-view v-slot="{route,Component}">
+            <transition  :enter-active-class="`animate__animated ${route.meta.transition}`">
+                <div :key="route.meta.title">
+                    <component :is="Component"></component>
+                </div>
+            </transition>
+        </router-view>
+```
+
+```vue
+{
+        path:"/reg",
+        name: "注册",
+        meta:{
+            title:"个人信息",
+            transition:"animate__fadeIn"
+        },
+        component: () => (import('../components/Reg.vue'))
+    },
+```
+这里使用了animate.css的动画库，在全局main.ts中注册import之后就可以用了。
+
+这里`router-view的插槽 v-slot,可以有component和route两个插槽内容，具体可以在 https://router.vuejs.org/zh/api/#router-view-s-v-slot  查看
+**transition报错需要div包裹组件**
+
+下面是个简单的插槽介绍
+子组件内容
+```vue
+  <template id="cpn">
+    <div>
+      <h3>hello</h3>
+      <slot name="bbq" :data="pLanguage"></slot>
+    </div>
+  </template>
+```
+
+父组件内容
+```vue
+
+<cpn>
+<template v-slot:bbq="eat">
+   <h3>{{eat.data}}</h3>
+</template>
+</cpn>
+```
