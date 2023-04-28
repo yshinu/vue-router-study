@@ -155,3 +155,46 @@ const toPage2 = () => {
     <router-view name="content"></router-view>
 ```
 类似具名插槽
+
+## 重定向和别名
+加个redirect:"/user1",就可以在访问‘/’时直接定向到‘/user1’
+```vue
+{
+    path: "/",
+    name: "登录",
+    redirect:"/user1",
+    component: () => (import('../components/Login.vue')),
+    children:[
+        {
+            path : 'user1',
+            name:"user1",
+            component:()=>(import('../components/User1.vue'))
+        },
+        {
+            path : 'user2',
+            name:"user2",
+            component:()=>(import('../components/User2.vue'))
+        },
+```
+
+redirect也可以写成这样： `redirect: { path: '/user1' }, 或者 name: 'user1'`
+当然redirect页可以传参，像这样：
+```vue
+ redirect: (to) => {
+            console.log(to) //可以查看父级内容
+            return {
+                path: '/user1',
+                query: to.query //将父级参数传递，或者自定义参数，例如{name:"happy"}
+            }
+```
+别名，意味着你访问/root以及"/root2","/root3"都会自动访问‘/my’
+```vue
+{
+        path: "/my",
+        alias:["/root","/root2","/root3"],//别名
+        components: {
+            default: () => import('../components/layout/menu.vue'),
+            header: () => import('../components/layout/header.vue'),
+            content: () => import('../components/layout/content.vue')
+        }
+```

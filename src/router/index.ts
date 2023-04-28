@@ -3,6 +3,15 @@ import {createRouter, createWebHashHistory, RouteRecordRaw} from "vue-router";
 const routes: Array<RouteRecordRaw> = [{
     path: "/",
     name: "登录",
+
+    redirect: (to) => {
+        console.log(to);
+        return {
+            path: '/user1',
+            query: {
+                name:"haha"
+            } //传参
+        }},
     component: () => (import('../components/Login.vue')),
     children:[
         {
@@ -18,12 +27,13 @@ const routes: Array<RouteRecordRaw> = [{
     ]
 },
     {
-        path:"/reg/:id",
+        path:"/reg",
         name: "注册",
         component: () => (import('../components/Reg.vue'))
     },
     {
         path: "/my",
+        alias:["/root","/root2","/root3"],//别名
         components: {
             default: () => import('../components/layout/menu.vue'),
             header: () => import('../components/layout/header.vue'),
