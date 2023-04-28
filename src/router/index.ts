@@ -3,15 +3,6 @@ import {createRouter, createWebHashHistory, RouteRecordRaw} from "vue-router";
 const routes: Array<RouteRecordRaw> = [{
     path: "/",
     name: "登录",
-
-    redirect: (to) => {
-        console.log(to);
-        return {
-            path: '/user1',
-            query: {
-                name:"haha"
-            } //传参
-        }},
     component: () => (import('../components/Login.vue')),
     children:[
         {
@@ -44,4 +35,18 @@ const routes: Array<RouteRecordRaw> = [{
 export const router = createRouter({
     history: createWebHashHistory(),
     routes
+})
+const whileList = ['/']
+
+router.beforeEach((to, from, next) => {
+    let token = localStorage.getItem('token')
+    //白名单 有值 或者登陆过存储了token信息可以跳转 否则就去登录页面
+    if (whileList.includes(to.path) || token) {
+        //另外说一下beforeEach可以定义不止一个，vue会收集你所有定义的路由钩子，所以next的作用不应该是跳转，而是使步骤进行到下一个你定义的钩子
+        next()
+    } else {
+        next({
+            path:'/'
+        })
+    }
 })

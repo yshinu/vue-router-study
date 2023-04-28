@@ -198,3 +198,92 @@ redirect也可以写成这样： `redirect: { path: '/user1' }, 或者 name: 'us
             content: () => import('../components/layout/content.vue')
         }
 ```
+
+## 路由守卫
+```vue
+router.beforeEach((to, form, next) => {
+    console.log(to, form);
+    next()
+})
+```
+* to: Route， 即将要进入的目标 路由对象；
+* from: Route，当前导航正要离开的路由；
+* next(): 进行管道中的下一个钩子。如果全部钩子执行完了，则导航的状态就是 confirmed (确认的)。
+* next(false): 中断当前的导航。如果浏览器的 URL 改变了 (可能是用户手动或者浏览器后退按钮)，那么 URL 地址会重置到 from 路由对应的地址。
+* next('/') 或者 next({ path: '/' }): 跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。
+
+### 鉴权登录
+前置全局守卫`beforeEach`
+如果有token或者在白名单里就可以直接跳否则返回主页
+```vue
+const whileList = ['/']
+ 
+router.beforeEach((to, from, next) => {
+    let token = localStorage.getItem('token')
+    if (whileList.includes(to.path) || token) {
+        next()
+    } else {
+        next({
+            path:'/'
+        })
+    }
+})
+```
+这里next()，不一定时跳转下一个页面，它是一个hook在意在这个时候执行其他内容
+后置全局守卫`afterEach`
+```vue
+router.afterEach((to, from) => {
+    Vnode.component?.exposed?.endLoading()
+})
+```
+
+## 小案例：登录
+用element plus的form表单坐验证，登录后会给localstorge存token
+```vue
+<el-form
+        ref="ruleFormRef"
+        :rules="rules"
+        :model="formInline">
+        <el-form-item label="账号" prop="user">
+            <el-input v-model="formInline.user" placeholder="请输入账号" />
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+            <el-input v-model="formInline.password" type="password" placeholder="请输入密码"/>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit">登录</el-button>
+        </el-form-item>
+    </el-form>
+
+```
+```vue
+const ruleFormRef = ref()
+const formInline = reactive({
+user: '',
+password: '',
+})
+const rules = reactive<FormRules>({
+user: [
+{required: true, message: '请输入用户名', trigger: 'blur'},
+{min: 1, max: 5, message: '用户名应为1-5位', trigger: 'blur'},
+],
+password: [
+{
+required: true,
+message: '请输入密码',
+trigger: 'change',
+},
+],
+})
+const onSubmit = () => {
+ruleFormRef.value?.validate((validate) => {
+if (validate) {
+router.push('/my')
+localStorage.setItem('token', '1')
+} else {
+ElMessage.error('请输入完整')
+}
+})
+
+}
+```
