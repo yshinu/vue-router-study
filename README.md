@@ -389,3 +389,35 @@ const router = createRouter({
         }
     },
 ```
+
+## 动态路由
+
+动态路由主要通过两个函数实现。`router.addRoute()` 和 `router.removeRoute()`
+
+它们只注册一个新的路由，也就是说，如果新增加的路由与当前位置相匹配，就需要你用 `router.push()` 或 `router.replace()` 来手动导航，才能显示该新路由
+
+`router.addRoute({ path: '/about', component: About })`
+有几个不同的方法来删除现有的路由：
+
+通过添加一个名称冲突的路由。如果添加与现有途径名称相同的途径，会先删除路由，再添加路由：
+`router.addRoute({ path: '/about', name: 'about', component: About })`
+// 这将会删除之前已经添加的路由，因为他们具有相同的名字且名字必须是唯一的
+`router.addRoute({ path: '/other', name: 'about', component: Other })`
+通过调用 `router.addRoute() `返回的回调：
+`const removeRoute = router.addRoute(routeRecord)`
+`removeRoute()` // 删除路由如果存在的话
+当路由没有名称时，这很有用。
+
+通过使用 `router.removeRoute()` 按名称删除路由：
+`router.addRoute({ path: '/about', name: 'about', component: About })`
+// 删除路由
+`router.removeRoute('about')`
+需要注意的是，如果你想使用这个功能，但又想避免名字的冲突，可以在路由中使用 Symbol 作为名字。
+
+当路由被删除时，所有的别名和子路由也会被同时删除
+
+查看现有路由
+Vue Router 提供了两个功能来查看现有的路由：
+
+`router.hasRoute()`：检查路由是否存在。
+`router.getRoutes()`：获取一个包含所有路由记录的数组。
