@@ -134,3 +134,24 @@ const toPage2 = () => {
 }
 ```
 在`'../components/Login.vue'`里面不要忘记加` <router-view/>`了，这样访问/login/user1就可以显示user1的内容了
+
+## 命名视图
+在Vue.js中，vue-router是一个官方的路由库，用于构建单页应用程序。命名视图是一种将多个组件同时渲染到同一个路由匹配的位置的技术。它允许您在同一个页面上同时渲染多个视图。当您需要同时显示多个相关联的组件时，这非常有用。
+
+这样设置路由
+```vue
+    {
+        path: "/my",
+        components: {
+            default: () => import('../components/layout/menu.vue'),
+            header: () => import('../components/layout/header.vue'),
+            content: () => import('../components/layout/content.vue')
+        }
+        }
+```
+默认展示default内容，想展示其余的可以用
+```vue
+ <router-view name="header"></router-view>
+    <router-view name="content"></router-view>
+```
+类似具名插槽

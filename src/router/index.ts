@@ -21,7 +21,16 @@ const routes: Array<RouteRecordRaw> = [{
         path:"/reg/:id",
         name: "注册",
         component: () => (import('../components/Reg.vue'))
-    }]
+    },
+    {
+        path: "/my",
+        components: {
+            default: () => import('../components/layout/menu.vue'),
+            header: () => import('../components/layout/header.vue'),
+            content: () => import('../components/layout/content.vue')
+        }
+        },
+]
 export const router = createRouter({
     history: createWebHashHistory(),
     routes
