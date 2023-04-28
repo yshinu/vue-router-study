@@ -366,3 +366,26 @@ ElMessage.error('请输入完整')
 </template>
 </cpn>
 ```
+## 滚动行为
+使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动。
+
+shi'yong'fang'shi'ru'xi
+```vue
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes: [...],
+  scrollBehavior (to, from, savedPosition) {
+    // return 期望滚动到哪个的位置
+  }
+})
+```
+判断当前路由页面位置，如果有就保持，没有就到顶部
+```vue
+  scrollBehavior:(to, from, savedPosition)=>{
+        if (savedPosition) {
+            return savedPosition
+        } else {
+            return {top:0 }
+        }
+    },
+```
