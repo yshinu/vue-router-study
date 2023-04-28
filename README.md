@@ -287,3 +287,34 @@ ElMessage.error('请输入完整')
 
 }
 ```
+
+## 路由元信息
+通过路由记录的  meta  属性可以定义路由的元信息。使用路由元信息可以在路由中附加自定义的数据。
+
+作用：
+* 权限校验标识。
+* 路由组件的过渡名称。
+* 路由组件持久化缓存 (keep-alive) 的相关配置。
+* 标题名称
+```vue
+  routes: [
+    {
+      path: '/',
+      component: () => import('@/views/Login.vue'),
+      meta: {
+        title: "登录"
+      }
+    },
+```
+
+修改当前页面标题：
+```vue
+  routes: [
+    {
+      path: '/',
+      component: () => import('@/views/Login.vue'),
+      meta: {
+        title: "登录"
+      }
+    },
+```

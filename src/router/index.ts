@@ -1,9 +1,16 @@
 import {createRouter, createWebHashHistory, RouteRecordRaw} from "vue-router";
-
+declare module 'vue-router' {
+    interface RouteMeta {
+        title?: string
+    }
+}
 const routes: Array<RouteRecordRaw> = [{
     path: "/",
     name: "登录",
     component: () => (import('../components/Login.vue')),
+    meta:{
+        title:"首页"
+    },
     children:[
         {
             path : 'user1',
@@ -39,6 +46,7 @@ export const router = createRouter({
 const whileList = ['/']
 
 router.beforeEach((to, from, next) => {
+    document.title = <string>to.meta.title
     let token = localStorage.getItem('token')
     //白名单 有值 或者登陆过存储了token信息可以跳转 否则就去登录页面
     if (whileList.includes(to.path) || token) {
