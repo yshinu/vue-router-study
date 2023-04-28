@@ -46,3 +46,16 @@ const toPage = (url: string) => {
   router.replace(url)
 }
 ```
+## 横跨历史
+采用这种方法前进或后退几个历史
+```vue
+const next = () => {
+  //前进 数量不限于1
+  router.go(1)
+}
+
+const prev = () => {
+  //后退
+  router.back()
+}
+```
