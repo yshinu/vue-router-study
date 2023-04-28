@@ -34,3 +34,15 @@ export const router = createRouter({
    * 在开发者工具中调试时，可以方便地辨识每个路由。由于路由名称是开发者定义的，因此可以更直观地辨识每个路由，方便调试和维护。
    * 
    * 总之，路由命名 name 属性是使代码更加清晰易懂、维护性更高的一种技巧。
+## 采用 replace 进行页面的跳转
+会同样也会创建渲染新的 Vue 组件，但是在 history 中其不会重复保存记录，而是替换原有的 vue 组件
+```vue
+<router-link replace to="/">Login</router-link>
+<router-link replace style="margin-left:10px" to="/reg">Reg</router-link>
+```
+或者
+```vue
+const toPage = (url: string) => {
+  router.replace(url)
+}
+```

@@ -6,7 +6,7 @@ const toPage = () => {
 }
 //对象
 const toPage1 = () => {
-    router.push({
+    router.replace({
         path: '/reg'
     })
 }
