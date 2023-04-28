@@ -59,3 +59,55 @@ const prev = () => {
   router.back()
 }
 ```
+## Query 路由传参
+```vue
+const items = {
+    name:"yshinu",
+    age:"18",
+    hobby:'抽烟'
+}
+const toPage1 = () => {
+router.push({
+path: '/reg',
+query:items
+})
+}
+```
+这样地址栏就会带上参数：http://localhost:5173/#/reg?name=yshinu&age=18&hobby=抽烟，
+同样跳转的页面也可以接收参数：
+```vue
+import { useRoute } from 'vue-router';
+const route = useRoute()
+
+//可以用这个来获取参数
+route.query?.xxx
+
+```
+## 动态路由传参
+路由这样：
+```vue
+    {
+        path:"/reg/:id",
+        name: "注册",
+        component: () => (import('../components/Reg.vue'))
+    }
+```
+传参这样：
+```vue
+const toPage2 = () => {
+    router.push({
+     name: '注册',
+      params:{
+      id:items.id
+    }
+  })
+}
+```
+浏览器：`http://localhost:5173/#/reg/114514`
+
+## 二者区别
+* query 传参配置的是 path，而 params 传参配置的是 name，在 params 中配置 path 无效
+* query 在路由配置不需要设置参数，而 params 必须设置
+* query 传递的参数会显示在地址栏中
+* params 传参刷新会无效，但是 query 会保存传递过来的值，刷新不变 ;
+* 路由配置

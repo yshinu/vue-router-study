@@ -6,7 +6,7 @@ const routes: Array<RouteRecordRaw> = [{
     component: () => (import('../components/Login.vue'))
 },
     {
-        path: "/reg",
+        path:"/reg/:id",
         name: "注册",
         component: () => (import('../components/Reg.vue'))
     }]
